@@ -22,4 +22,16 @@ public class Portfolio {
         this.user = user;
         this.name = name;
     }
+
+    public Id getId() {
+        return id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public PortfolioName getName() {
+        return name;
+    }
 }

@@ -37,4 +37,16 @@ public class AssetPrice {
         this.date = other.date;
         this.price = other.price;
     }
+
+    public ZonedDateTime getDate() {
+        return date;
+    }
+
+    public Money getPrice() {
+        return price;
+    }
+
+    public Asset getAsset() {
+        return asset;
+    }
 }

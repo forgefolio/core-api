@@ -13,4 +13,8 @@ public class User {
     public User(Id id) {
         this.id = id;
     }
+
+    public Id getId() {
+        return id;
+    }
 }

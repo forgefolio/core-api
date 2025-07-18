@@ -15,4 +15,8 @@ public class Money {
 
         this.value = value;
     }
+
+    public BigDecimal getValue() {
+        return value;
+    }
 }

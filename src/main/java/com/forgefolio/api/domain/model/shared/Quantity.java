@@ -13,4 +13,8 @@ public class Quantity {
 
         this.value = amount;
     }
+
+    public BigDecimal getValue() {
+        return value;
+    }
 }

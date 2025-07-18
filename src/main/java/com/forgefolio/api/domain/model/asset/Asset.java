@@ -22,4 +22,16 @@ public class Asset {
         this.ticker = new Ticker(ticker);
         this.name = name;
     }
+
+    public Id getId() {
+        return id;
+    }
+
+    public Ticker getTicker() {
+        return ticker;
+    }
+
+    public String getName() {
+        return name;
+    }
 }

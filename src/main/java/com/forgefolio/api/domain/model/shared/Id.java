@@ -29,4 +29,7 @@ public class Id {
         return value.toString();
     }
 
+    public UUID getValue() {
+        return value;
+    }
 }

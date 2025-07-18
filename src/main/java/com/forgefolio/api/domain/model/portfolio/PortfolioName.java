@@ -17,4 +17,7 @@ public class PortfolioName {
         this.value = value;
     }
 
+    public String getValue() {
+        return value;
+    }
 }

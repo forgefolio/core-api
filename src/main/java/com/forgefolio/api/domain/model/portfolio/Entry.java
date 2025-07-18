@@ -52,4 +52,32 @@ public class Entry {
         BUY,
         SELL,
     }
+
+    public Id getId() {
+        return id;
+    }
+
+    public Portfolio getPortfolio() {
+        return portfolio;
+    }
+
+    public Asset getAsset() {
+        return asset;
+    }
+
+    public ZonedDateTime getDate() {
+        return date;
+    }
+
+    public Type getType() {
+        return type;
+    }
+
+    public Quantity getAmount() {
+        return amount;
+    }
+
+    public Money getUnitPrice() {
+        return unitPrice;
+    }
 }
