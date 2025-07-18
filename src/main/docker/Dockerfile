@@ -6,7 +6,10 @@ COPY . .
 
 RUN chmod +x mvnw
 
-RUN ./mvnw package -D native
+ARG QUARKUS_PROFILE=prod
+ENV QUARKUS_PROFILE=${QUARKUS_PROFILE}
+
+RUN ./mvnw package -D native -D quarkus.profile=${QUARKUS_PROFILE}
 
 FROM quay.io/quarkus/ubi9-quarkus-micro-image:2.0
 
@@ -19,4 +22,4 @@ RUN chown 1001 /work && chmod "g+rwX" /work && chown 1001:root /work
 EXPOSE 8080
 USER 1001
 
-ENTRYPOINT ["./application", "-Dquarkus.http.host=0.0.0.0"]
+ENTRYPOINT ["./application", "-Dquarkus.http.host=0.0.0.0", "-D quarkus.profile=${QUARKUS_PROFILE}"]
