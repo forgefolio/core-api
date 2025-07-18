@@ -1,0 +1,19 @@
+package com.forgefolio.api.domain.exception;
+
+public enum ErrorCode {
+    USER_NOT_FOUND,
+    PORTFOLIO_NAME_EMPTY,
+    PORTFOLIO_NAME_TOO_LONG,
+    TICKER_EMPTY,
+    UNKNOWN_ERROR,
+    MONEY_NULL,
+    MONEY_NEGATIVE,
+    INVALID_SORT_FIELD,
+    PORTFOLIO_NOT_FOUND,
+    ID_EMPTY,
+    ASSET_NOT_FOUND,
+    QUANTITY_NULL,
+    DATE_NULL,
+    ENTRY_TYPE_NULL,
+
+}

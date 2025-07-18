@@ -1,0 +1,22 @@
+FROM ghcr.io/graalvm/native-image-community:21 AS build
+
+WORKDIR /app
+
+COPY . .
+
+RUN chmod +x mvnw
+
+RUN ./mvnw package -D native
+
+FROM quay.io/quarkus/ubi9-quarkus-micro-image:2.0
+
+WORKDIR /work/
+
+COPY --from=build /app/target/*-runner /work/application
+
+RUN chown 1001 /work && chmod "g+rwX" /work && chown 1001:root /work
+
+EXPOSE 8080
+USER 1001
+
+ENTRYPOINT ["./application", "-Dquarkus.http.host=0.0.0.0"]
