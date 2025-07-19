@@ -1,0 +1,11 @@
+infrastructure:
+  adapter:
+    out:
+      api:
+        asset:
+          price-provider:
+            token: ${PRICE_PROVIDER_API_TOKEN}
+
+asset-price-provider:
+  mp-rest:
+    url: ${PRICE_PROVIDER_API_URL}

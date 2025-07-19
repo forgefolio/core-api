@@ -21,10 +21,12 @@ public class FetchAssetPricesService implements FetchAssetPricesUseCase {
     @Override
     public Uni<Void> fetchAssetPrices() {
         return assetPriceProvider.fetchAssetPrices()
-                .flatMap(assetPrice ->
+                .onItem().transformToUniAndConcatenate(assetPrice ->
                         assetRepository.upsertAsset(assetPrice.getAsset())
                                 .map(upsertedAsset -> new AssetPrice(assetPrice, upsertedAsset))
                                 .flatMap(assetRepository::saveAssetPrice)
-                );
+                )
+                .collect().asList()
+                .replaceWithVoid();
     }
 }
