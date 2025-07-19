@@ -27,6 +27,9 @@ public class GoalEntity extends PanacheEntityBase {
     private BigDecimal percentage;
     private BigDecimal value;
 
+    public GoalEntity() {
+    }
+
     public GoalEntity(Goal goal) {
         this.id = goal.getId().getValue();
         this.portfolioId = goal.getPortfolio().getId().getValue();
