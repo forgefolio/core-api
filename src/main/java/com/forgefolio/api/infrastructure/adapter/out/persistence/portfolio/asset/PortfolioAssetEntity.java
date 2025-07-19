@@ -1,0 +1,76 @@
+package com.forgefolio.api.infrastructure.adapter.out.persistence.portfolio.asset;
+
+import com.forgefolio.api.domain.model.asset.Asset;
+import com.forgefolio.api.domain.model.portfolio.Portfolio;
+import com.forgefolio.api.domain.model.shared.Quantity;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.IdClass;
+import jakarta.persistence.Table;
+
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.UUID;
+
+@Entity
+@Table(name = "portfolio_assets")
+@IdClass(PortfolioAssetEntity.ID.class)
+public class PortfolioAssetEntity {
+
+    @Id
+    private UUID portfolioId;
+
+    @Id
+    private UUID assetId;
+
+    private BigDecimal amount;
+
+    public PortfolioAssetEntity() {
+    }
+
+    public PortfolioAssetEntity(Portfolio portfolio, Asset asset, Quantity quantity) {
+        this.portfolioId = portfolio.getId().getValue();
+        this.assetId = asset.getId().getValue();
+        this.amount = quantity.getValue();
+    }
+
+    public static PortfolioAssetEntity negative(Portfolio portfolio, Asset asset, Quantity quantity) {
+        return new PortfolioAssetEntity(
+                portfolio,
+                asset,
+                new Quantity(quantity.getValue().negate())
+        );
+    }
+
+    public static class ID implements Serializable {
+
+        public UUID portfolioId;
+        public UUID assetId;
+
+        public ID(UUID portfolioId, UUID assetId) {
+            this.portfolioId = portfolioId;
+            this.assetId = assetId;
+        }
+
+    }
+
+    public UUID getPortfolioId() {
+        return portfolioId;
+    }
+
+    public UUID getAssetId() {
+        return assetId;
+    }
+
+    public BigDecimal getAmount() {
+        return amount;
+    }
+
+    public void decrementAmount(Quantity quantity) {
+        this.amount = this.amount.subtract(quantity.getValue());
+    }
+
+    public void incrementAmount(Quantity quantity) {
+        this.amount = this.amount.add(quantity.getValue());
+    }
+}

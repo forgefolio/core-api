@@ -10,6 +10,14 @@ public abstract class PageCommand {
     private final int page;
     private final int size;
 
+    public int getPage() {
+        return page;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
     protected final List<String> sort;
 
     public abstract Map<String, Direction> getSort();

@@ -49,4 +49,8 @@ public class AssetPrice {
     public Asset getAsset() {
         return asset;
     }
+
+    public Id getId() {
+        return id;
+    }
 }

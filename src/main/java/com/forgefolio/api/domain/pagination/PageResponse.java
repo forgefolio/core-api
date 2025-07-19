@@ -10,6 +10,13 @@ public class PageResponse<T> {
     private final long totalElements;
     private final List<T> content;
 
+    public PageResponse(int page, int size, long totalElements, List<T> content) {
+        this.page = page;
+        this.size = size;
+        this.totalElements = totalElements;
+        this.content = content;
+    }
+
     public <ORIGINAL> PageResponse(PageResponse<ORIGINAL> other, Function<ORIGINAL, T> contentMapper) {
         this.page = other.page;
         this.size = other.size;

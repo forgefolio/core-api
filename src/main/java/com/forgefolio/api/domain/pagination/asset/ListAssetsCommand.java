@@ -19,6 +19,10 @@ public class ListAssetsCommand extends PageCommand {
         this.ticker = ticker;
     }
 
+    public String getTicker() {
+        return ticker;
+    }
+
     @Override
     public Map<String, Direction> getSort() {
         if (sort == null || sort.isEmpty())
