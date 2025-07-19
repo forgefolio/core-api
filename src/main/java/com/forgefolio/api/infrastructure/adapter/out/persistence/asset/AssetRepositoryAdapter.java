@@ -12,6 +12,7 @@ import io.quarkus.hibernate.reactive.panache.common.WithSession;
 import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
+import org.hibernate.reactive.mutiny.Mutiny;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -110,23 +111,95 @@ public class AssetRepositoryAdapter implements AssetRepository {
 
     @Override
     @WithTransaction
-    public Uni<Asset> upsertAsset(Asset asset) {
-        return assetPanacheRepository.findByTicker(asset.getTicker().getValue())
-                .flatMap(existing -> {
-                    if (existing != null) {
-                        existing.setName(asset.getName());
-                        return assetPanacheRepository.persist(existing).map(AssetEntity::toDomain);
-                    } else {
-                        AssetEntity newEntity = new AssetEntity(asset);
-                        return assetPanacheRepository.persist(newEntity).map(AssetEntity::toDomain);
-                    }
-                });
+    public Uni<List<Asset>> upsertAssets(List<Asset> assets) {
+        String baseSql = """
+                INSERT INTO assets (id, ticker, name)
+                VALUES
+                """;
+
+        StringBuilder values = new StringBuilder();
+        for (int i = 0; i < assets.size(); i++) {
+            if (i > 0) values.append(", ");
+
+            values.append("(")
+                    .append(":id_").append(i)
+                    .append(", :ticker_").append(i)
+                    .append(", :name_").append(i)
+                    .append(")");
+        }
+
+        String conflictSql = """
+                ON CONFLICT (ticker) DO UPDATE
+                SET name = EXCLUDED.name
+                RETURNING id, ticker, name
+                """;
+
+        String sql = baseSql + values + conflictSql;
+
+        return Panache.getSession().flatMap(session -> {
+            Mutiny.Query<Object> query = session.createNativeQuery(sql);
+
+            for (int i = 0; i < assets.size(); i++) {
+                Asset asset = assets.get(i);
+
+                query.setParameter("id_" + i, asset.getId().getValue());
+                query.setParameter("ticker_" + i, asset.getTicker().getValue());
+                query.setParameter("name_" + i, asset.getName());
+            }
+
+            return query.getResultList()
+                    .map(results ->
+                            results.stream()
+                                    .map(row -> {
+                                        Object[] cols = (Object[]) row;
+
+                                        UUID id = (UUID) cols[0];
+                                        String ticker = (String) cols[1];
+                                        String name = (String) cols[2];
+
+                                        return new AssetEntity(id, ticker, name);
+                                    })
+                                    .map(AssetEntity::toDomain)
+                                    .toList()
+                    );
+        });
     }
 
     @Override
     @WithTransaction
-    public Uni<Void> saveAssetPrice(AssetPrice assetPrice) {
-        AssetPriceEntity entity = new AssetPriceEntity(assetPrice);
-        return assetPricePanacheRepository.persist(entity).replaceWithVoid();
+    public Uni<Void> saveAssetPrices(List<AssetPrice> assetPrices) {
+        String baseSql = """
+                INSERT INTO asset_prices (id, asset_id, price, date)
+                VALUES
+                """;
+
+        StringBuilder values = new StringBuilder();
+        for (int i = 0; i < assetPrices.size(); i++) {
+            if (i > 0) values.append(", ");
+
+            values.append("(")
+                    .append(":id_").append(i)
+                    .append(", :asset_id_").append(i)
+                    .append(", :price_").append(i)
+                    .append(", :date_").append(i)
+                    .append(")");
+        }
+
+        String sql = baseSql + values;
+
+        return Panache.getSession().flatMap(session -> {
+            Mutiny.Query<Void> query = session.createNativeQuery(sql);
+
+            for (int i = 0; i < assetPrices.size(); i++) {
+                AssetPrice assetPrice = assetPrices.get(i);
+
+                query.setParameter("id_" + i, assetPrice.getId().getValue());
+                query.setParameter("asset_id_" + i, assetPrice.getAsset().getId().getValue());
+                query.setParameter("price_" + i, assetPrice.getPrice().getValue());
+                query.setParameter("date_" + i, assetPrice.getDate().toOffsetDateTime());
+            }
+
+            return query.executeUpdate().replaceWithVoid();
+        });
     }
 }

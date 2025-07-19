@@ -8,13 +8,15 @@ import com.forgefolio.api.domain.pagination.PageResponse;
 import com.forgefolio.api.domain.pagination.asset.ListAssetsCommand;
 import io.smallrye.mutiny.Uni;
 
+import java.util.List;
+
 public interface AssetRepository {
 
     Uni<PageResponse<Pair<Asset, AssetPrice>>> findAssetsWithCurrentPrices(ListAssetsCommand command);
 
     Uni<Asset> findById(Id assetId);
 
-    Uni<Asset> upsertAsset(Asset asset);
+    Uni<List<Asset>> upsertAssets(List<Asset> assets);
 
-    Uni<Void> saveAssetPrice(AssetPrice assetPrice);
+    Uni<Void> saveAssetPrices(List<AssetPrice> assetPrices);
 }

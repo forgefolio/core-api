@@ -27,6 +27,12 @@ public class AssetEntity {
         this.name = asset.getName();
     }
 
+    public AssetEntity(UUID id, String ticker, String name) {
+        this.id = id;
+        this.ticker = ticker;
+        this.name = name;
+    }
+
     public Asset toDomain() {
         return new Asset(id, ticker, name);
     }
