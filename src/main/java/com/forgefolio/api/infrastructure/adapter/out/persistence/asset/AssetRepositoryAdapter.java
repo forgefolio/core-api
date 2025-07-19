@@ -32,7 +32,6 @@ public class AssetRepositoryAdapter implements AssetRepository {
     @Override
     @WithSession
     public Uni<PageResponse<Pair<Asset, AssetPrice>>> findAssetsWithCurrentPrices(ListAssetsCommand command) {
-        System.out.println(command);
         String sort = command.getSortQuery();
         String tickerFilter = command.getTicker() != null ? command.getTicker().toUpperCase() + "%" : "%";
         int offset = command.getPage() * command.getSize();
