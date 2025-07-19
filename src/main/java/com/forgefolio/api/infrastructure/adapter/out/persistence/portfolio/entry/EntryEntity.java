@@ -41,14 +41,4 @@ public class EntryEntity extends PanacheEntityBase {
         this.amount = entry.getAmount().getValue();
         this.unitPrice = entry.getUnitPrice().getValue();
     }
-
-    public Entry toDomain() {
-        return new Entry(
-                this.id,
-                this.date.toZonedDateTime(),
-                this.type,
-                this.amount,
-                this.unitPrice
-        );
-    }
 }

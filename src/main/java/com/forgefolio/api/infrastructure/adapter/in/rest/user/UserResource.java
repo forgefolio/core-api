@@ -9,11 +9,11 @@ import io.vertx.ext.web.RoutingContext;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class UserController {
+public class UserResource {
 
     private final CreateUserUseCase createUserUseCase;
 
-    public UserController(CreateUserUseCase createUserUseCase) {
+    public UserResource(CreateUserUseCase createUserUseCase) {
         this.createUserUseCase = createUserUseCase;
     }
 

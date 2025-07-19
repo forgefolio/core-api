@@ -47,7 +47,8 @@ public class CreateEntryService implements CreateEntryUseCase {
                     Entry entry = new Entry(portfolio, asset, command.getDate(),
                             command.getType(), command.getAmount(), command.getUnitPrice());
 
-                    return entryRepository.save(entry).replaceWith(entry);
+                    return entryRepository.save(entry)
+                            .replaceWith(entry);
                 })
                 .flatMap(entry -> {
                     Uni<Void> updateAmount;
@@ -58,7 +59,8 @@ public class CreateEntryService implements CreateEntryUseCase {
                         updateAmount = portfolioRepository.decreaseAssetAmount(entry.getPortfolio(), entry.getAsset(), entry.getAmount());
 
 
-                    return updateAmount.replaceWith(new EntryResponse(entry));
+                    return updateAmount
+                            .replaceWith(new EntryResponse(entry));
                 });
     }
 }

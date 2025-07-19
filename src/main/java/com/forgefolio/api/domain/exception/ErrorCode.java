@@ -15,5 +15,6 @@ public enum ErrorCode {
     QUANTITY_NULL,
     DATE_NULL,
     ENTRY_TYPE_NULL,
+    GOAL_TYPE_NULL, PERCENTAGE_NULL,
 
 }

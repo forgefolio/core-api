@@ -11,11 +11,11 @@ import io.vertx.ext.web.RoutingContext;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class PortfolioController {
+public class PortfolioResource {
 
     private final CreatePortfolioUserCase createPortfolioUserCase;
 
-    public PortfolioController(CreatePortfolioUserCase createPortfolioUserCase) {
+    public PortfolioResource(CreatePortfolioUserCase createPortfolioUserCase) {
         this.createPortfolioUserCase = createPortfolioUserCase;
     }
 

@@ -11,11 +11,11 @@ import io.vertx.ext.web.RoutingContext;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-public class EntryController {
+public class EntryResource {
 
     private final CreateEntryUseCase createEntryUseCase;
 
-    public EntryController(CreateEntryUseCase createEntryUseCase) {
+    public EntryResource(CreateEntryUseCase createEntryUseCase) {
         this.createEntryUseCase = createEntryUseCase;
     }
 
