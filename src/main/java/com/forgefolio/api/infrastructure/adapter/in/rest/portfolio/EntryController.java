@@ -13,7 +13,6 @@ import io.vertx.ext.web.RoutingContext;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
-@RouteBase(path = "entries", produces = ReactiveRoutes.APPLICATION_JSON)
 public class EntryController {
 
     private final CreateEntryUseCase createEntryUseCase;
@@ -22,7 +21,7 @@ public class EntryController {
         this.createEntryUseCase = createEntryUseCase;
     }
 
-    @Route(methods = Route.HttpMethod.POST)
+    @Route(methods = Route.HttpMethod.POST, path = "/entries")
     public Uni<EntryResponse> save(
             RoutingContext ctx,
             @Body CreateEntryCommand command

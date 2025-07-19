@@ -1,22 +1,19 @@
 quarkus:
   datasource:
     db-kind: postgresql
+    username: ${POSTGRES_USER}
+    password: ${POSTGRES_PASSWORD}
     reactive:
       url: postgresql://${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}
-      username: ${POSTGRES_USER}
-      password: ${POSTGRES_PASSWORD}
-    jdbc: false
 
   hibernate-orm:
-    log:
-      sql: true
+    dialect: org.hibernate.dialect.PostgreSQLDialect
     schema-management:
       strategy: update
 
-  hibernate-orm-active: false
-  hibernate-reactive:
-    active: true
-
+  rest-client:
+    asset-price-provider:
+      url: ${PRICE_PROVIDER_API_URL}
 
 infrastructure:
   adapter:
@@ -25,7 +22,3 @@ infrastructure:
         asset:
           price-provider:
             token: ${PRICE_PROVIDER_API_TOKEN}
-
-asset-price-provider:
-  mp-rest:
-    url: ${PRICE_PROVIDER_API_URL}

@@ -15,7 +15,10 @@ public class EntryEntity extends PanacheEntityBase {
     @Id
     private UUID id;
 
+    @Column(name = "portfolio_id")
     private UUID portfolioId;
+
+    @Column(name = "asset_id")
     private UUID assetId;
 
     private OffsetDateTime date;

@@ -8,6 +8,8 @@ import com.forgefolio.api.domain.model.shared.Id;
 import com.forgefolio.api.domain.pagination.PageResponse;
 import com.forgefolio.api.domain.pagination.asset.ListAssetsCommand;
 import io.quarkus.hibernate.reactive.panache.Panache;
+import io.quarkus.hibernate.reactive.panache.common.WithSession;
+import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -28,7 +30,9 @@ public class AssetRepositoryAdapter implements AssetRepository {
     }
 
     @Override
+    @WithSession
     public Uni<PageResponse<Pair<Asset, AssetPrice>>> findAssetsWithCurrentPrices(ListAssetsCommand command) {
+        System.out.println(command);
         String sort = command.getSortQuery();
         String tickerFilter = command.getTicker() != null ? command.getTicker().toUpperCase() + "%" : "%";
         int offset = command.getPage() * command.getSize();
@@ -99,12 +103,14 @@ public class AssetRepositoryAdapter implements AssetRepository {
     }
 
     @Override
+    @WithSession
     public Uni<Asset> findById(Id id) {
         return assetPanacheRepository.findById(id.getValue())
                 .map(AssetEntity::toDomain);
     }
 
     @Override
+    @WithTransaction
     public Uni<Asset> upsertAsset(Asset asset) {
         return assetPanacheRepository.findByTicker(asset.getTicker().getValue())
                 .flatMap(existing -> {
@@ -119,6 +125,7 @@ public class AssetRepositoryAdapter implements AssetRepository {
     }
 
     @Override
+    @WithTransaction
     public Uni<Void> saveAssetPrice(AssetPrice assetPrice) {
         AssetPriceEntity entity = new AssetPriceEntity(assetPrice);
         return assetPricePanacheRepository.persist(entity).replaceWithVoid();

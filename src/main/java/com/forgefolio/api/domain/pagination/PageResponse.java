@@ -27,4 +27,19 @@ public class PageResponse<T> {
                 .toList();
     }
 
+    public int getPage() {
+        return page;
+    }
+
+    public int getSize() {
+        return size;
+    }
+
+    public long getTotalElements() {
+        return totalElements;
+    }
+
+    public List<T> getContent() {
+        return content;
+    }
 }

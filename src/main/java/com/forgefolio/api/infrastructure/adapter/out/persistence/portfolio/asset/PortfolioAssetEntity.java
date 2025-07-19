@@ -3,10 +3,7 @@ package com.forgefolio.api.infrastructure.adapter.out.persistence.portfolio.asse
 import com.forgefolio.api.domain.model.asset.Asset;
 import com.forgefolio.api.domain.model.portfolio.Portfolio;
 import com.forgefolio.api.domain.model.shared.Quantity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.IdClass;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -19,9 +16,11 @@ import java.util.UUID;
 public class PortfolioAssetEntity {
 
     @Id
+    @Column(name = "portfolio_id")
     private UUID portfolioId;
 
     @Id
+    @Column(name = "asset_id")
     private UUID assetId;
 
     private BigDecimal amount;

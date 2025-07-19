@@ -4,10 +4,7 @@ import com.forgefolio.api.domain.model.portfolio.Portfolio;
 import com.forgefolio.api.domain.model.portfolio.PortfolioName;
 import com.forgefolio.api.domain.model.user.User;
 import io.quarkus.hibernate.reactive.panache.PanacheEntityBase;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Index;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 
 import java.util.UUID;
 
@@ -23,6 +20,7 @@ public class PortfolioEntity extends PanacheEntityBase {
     @Id
     private UUID id;
 
+    @Column(name = "user_id")
     private UUID userId;
 
     private String name;
