@@ -50,6 +50,8 @@ public class PortfolioRepositoryAdapter implements PortfolioRepository {
                     PortfolioAssetEntity entity = new PortfolioAssetEntity(portfolio, asset, quantity);
                     return assetRepo.persist(entity);
                 })
+
+                //TODO: fix double increase
                 .flatMap(existing -> {
                     existing.incrementAmount(quantity);
                     return assetRepo.persist(existing).replaceWithVoid();
@@ -67,6 +69,8 @@ public class PortfolioRepositoryAdapter implements PortfolioRepository {
                     PortfolioAssetEntity entity = PortfolioAssetEntity.negative(portfolio, asset, quantity);
                     return assetRepo.persist(entity);
                 })
+
+                //TODO: fix double decrease
                 .flatMap(existing -> {
                     existing.decrementAmount(quantity);
                     return assetRepo.persist(existing).replaceWithVoid();

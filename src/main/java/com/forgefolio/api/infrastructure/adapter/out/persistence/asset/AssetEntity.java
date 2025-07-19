@@ -1,23 +1,19 @@
 package com.forgefolio.api.infrastructure.adapter.out.persistence.asset;
 
 import com.forgefolio.api.domain.model.asset.Asset;
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.util.UUID;
 
 @Entity
-@Table(
-        name = "assets",
-        indexes = {
-                @Index(name = "idx_assets_ticker", columnList = "ticker", unique = true)
-        }
-)
+@Table(name = "assets")
 public class AssetEntity {
 
     @Id
     private UUID id;
 
-    @Column(unique = true)
     private String ticker;
 
     private String name;

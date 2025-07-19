@@ -1,19 +1,17 @@
 package com.forgefolio.api.infrastructure.adapter.out.persistence.asset;
 
 import com.forgefolio.api.domain.model.asset.AssetPrice;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(
-        name = "asset_prices",
-        indexes = {
-                @Index(name = "idx_asset_prices_asset_id_date_desc", columnList = "assetId, date", unique = true)
-        }
-)
+@Table(name = "asset_prices")
 public class AssetPriceEntity {
 
     @Id
