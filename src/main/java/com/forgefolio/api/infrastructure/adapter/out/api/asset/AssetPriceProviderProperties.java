@@ -9,6 +9,9 @@ public class AssetPriceProviderProperties {
 
     private String token;
 
+    public AssetPriceProviderProperties() {
+    }
+
     public String getToken() {
         return token;
     }

@@ -10,6 +10,7 @@ import jakarta.persistence.Table;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Objects;
 import java.util.UUID;
 
 @Entity
@@ -47,11 +48,24 @@ public class PortfolioAssetEntity {
         public UUID portfolioId;
         public UUID assetId;
 
+        public ID() {
+        }
+
         public ID(UUID portfolioId, UUID assetId) {
             this.portfolioId = portfolioId;
             this.assetId = assetId;
         }
 
+        @Override
+        public boolean equals(Object o) {
+            if (!(o instanceof ID id)) return false;
+            return Objects.equals(portfolioId, id.portfolioId) && Objects.equals(assetId, id.assetId);
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(portfolioId, assetId);
+        }
     }
 
     public UUID getPortfolioId() {

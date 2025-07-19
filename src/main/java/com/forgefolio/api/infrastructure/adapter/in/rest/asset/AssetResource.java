@@ -9,7 +9,10 @@ import io.quarkus.vertx.web.ReactiveRoutes;
 import io.quarkus.vertx.web.Route;
 import io.quarkus.vertx.web.RouteBase;
 import io.smallrye.mutiny.Uni;
+import io.vertx.ext.web.RoutingContext;
 import jakarta.enterprise.context.ApplicationScoped;
+
+import java.util.List;
 
 
 @ApplicationScoped
@@ -23,10 +26,15 @@ public class AssetResource {
     }
 
     @Route(methods = Route.HttpMethod.GET)
-    public Uni<PageResponse<AssetResponse>> getAssets(
-            @Param ListAssetsCommand query
-    ) {
-        return listAssetsUseCase.getAssets(query);
+    public Uni<PageResponse<AssetResponse>> getAssets(RoutingContext rc) {
+        int page = Integer.parseInt(rc.request().getParam("page") != null ? rc.request().getParam("page") : "0");
+        int size = Integer.parseInt(rc.request().getParam("size") != null ? rc.request().getParam("size") : "10");
+        List<String> sort = rc.request().params().getAll("sort");
+        String ticker = rc.request().getParam("ticker");
+
+        ListAssetsCommand command = new ListAssetsCommand(page, size, sort, ticker);
+
+        return listAssetsUseCase.getAssets(command);
     }
 
 }

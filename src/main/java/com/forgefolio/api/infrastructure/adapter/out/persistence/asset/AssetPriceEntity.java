@@ -14,7 +14,7 @@ import java.util.UUID;
 @Table(
         name = "asset_prices",
         indexes = {
-                @Index(name = "idx_asset_prices_asset_id_date_desc", columnList = "assetId, date DESC", unique = true)
+                @Index(name = "idx_asset_prices_asset_id_date_desc", columnList = "assetId, date", unique = true)
         }
 )
 public class AssetPriceEntity {

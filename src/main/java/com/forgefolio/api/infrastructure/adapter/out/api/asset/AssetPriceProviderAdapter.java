@@ -5,6 +5,7 @@ import com.forgefolio.api.domain.model.asset.Asset;
 import com.forgefolio.api.domain.model.asset.AssetPrice;
 import io.smallrye.mutiny.Multi;
 import jakarta.enterprise.context.ApplicationScoped;
+import org.eclipse.microprofile.rest.client.inject.RestClient;
 
 import java.time.ZonedDateTime;
 
@@ -14,7 +15,11 @@ public class AssetPriceProviderAdapter implements AssetPriceProvider {
     private final AssetPriceRestClient client;
     private final AssetPriceProviderProperties properties;
 
-    public AssetPriceProviderAdapter(AssetPriceRestClient client, AssetPriceProviderProperties properties) {
+    public AssetPriceProviderAdapter(
+            @RestClient
+            AssetPriceRestClient client,
+            AssetPriceProviderProperties properties
+    ) {
         this.client = client;
         this.properties = properties;
     }
