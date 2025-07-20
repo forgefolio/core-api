@@ -3,6 +3,7 @@ package com.forgefolio.api.domain.model.shared;
 import com.forgefolio.api.domain.exception.BadArgumentException;
 import com.forgefolio.api.domain.exception.ErrorCode;
 
+import java.util.Objects;
 import java.util.UUID;
 
 public class Id {
@@ -22,6 +23,17 @@ public class Id {
             throw new BadArgumentException(ErrorCode.ID_EMPTY);
 
         this.value = UUID.fromString(string);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (!(o instanceof Id id)) return false;
+        return Objects.equals(value, id.value);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(value);
     }
 
     @Override
