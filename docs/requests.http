@@ -6,7 +6,7 @@ POST http://localhost:8080/portfolios
 Content-Type: application/json
 
 {
-  "userId": "a468f3e8-98e9-4e05-b708-64160e3cd728",
+  "userId": "82fd8238-2b9d-4734-b566-655bda454434",
   "name": "My Portfolio"
 }
 
@@ -25,10 +25,22 @@ POST http://localhost:8080/entries
 Content-Type: application/json
 
 {
-  "portfolioId": "a7974f90-ddd2-4d5a-8ec1-97db243c8bb4",
-  "assetId": "ded37a4f-fc4d-4f3c-b53f-df57d483f7c9",
+  "portfolioId": "e5fa6457-b341-4a2a-b996-d1d775be02df",
+  "assetId": "a9779df4-5bcf-4900-964b-1914173a56be",
   "date": "2025-07-14T12:34:03.283023Z",
   "type": "BUY",
   "amount": 10,
   "unitPrice": 21.19
+}
+
+### create a new goal
+POST http://localhost:8080/goals
+Content-Type: application/json
+
+{
+  "portfolioId": "e5fa6457-b341-4a2a-b996-d1d775be02df",
+  "assetId": "a9779df4-5bcf-4900-964b-1914173a56be",
+
+  "type": "PERCENTAGE",
+  "percentage": 10
 }

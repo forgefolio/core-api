@@ -27,6 +27,8 @@ public class EntryEntity extends PanacheEntityBase {
     private Entry.Type type;
 
     private BigDecimal amount;
+
+    @Column(name = "unit_price")
     private BigDecimal unitPrice;
 
     public EntryEntity() {

@@ -1,6 +1,8 @@
 package com.forgefolio.api.infrastructure.adapter.out.persistence.portfolio;
 
 import com.forgefolio.api.application.port.out.portfolio.PortfolioRepository;
+import com.forgefolio.api.domain.exception.ErrorCode;
+import com.forgefolio.api.domain.exception.NotFoundException;
 import com.forgefolio.api.domain.model.asset.Asset;
 import com.forgefolio.api.domain.model.portfolio.Portfolio;
 import com.forgefolio.api.domain.model.shared.Id;
@@ -36,6 +38,7 @@ public class PortfolioRepositoryAdapter implements PortfolioRepository {
     @WithSession
     public Uni<Portfolio> findById(Id id) {
         return portfolioRepo.findById(id.getValue())
+                .onItem().ifNull().failWith(new NotFoundException(ErrorCode.PORTFOLIO_NOT_FOUND))
                 .map(PortfolioEntity::toDomain);
     }
 

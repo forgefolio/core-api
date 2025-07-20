@@ -2,6 +2,8 @@ package com.forgefolio.api.infrastructure.adapter.out.persistence.asset;
 
 import com.forgefolio.api.application.port.out.asset.AssetRepository;
 import com.forgefolio.api.domain.dto.Pair;
+import com.forgefolio.api.domain.exception.ErrorCode;
+import com.forgefolio.api.domain.exception.NotFoundException;
 import com.forgefolio.api.domain.model.asset.Asset;
 import com.forgefolio.api.domain.model.asset.AssetPrice;
 import com.forgefolio.api.domain.model.shared.Id;
@@ -106,6 +108,7 @@ public class AssetRepositoryAdapter implements AssetRepository {
     @WithSession
     public Uni<Asset> findById(Id id) {
         return assetPanacheRepository.findById(id.getValue())
+                .onItem().ifNull().failWith(new NotFoundException(ErrorCode.ASSET_NOT_FOUND))
                 .map(AssetEntity::toDomain);
     }
 

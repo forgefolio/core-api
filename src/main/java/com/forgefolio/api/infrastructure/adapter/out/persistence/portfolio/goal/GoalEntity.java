@@ -35,8 +35,8 @@ public class GoalEntity extends PanacheEntityBase {
         this.portfolioId = goal.getPortfolio().getId().getValue();
         this.assetId = goal.getAsset().getId().getValue();
         this.type = goal.getType();
-        this.amount = goal.getAmount().getValue();
-        this.percentage = goal.getPercentage().getValue();
-        this.value = goal.getValue().getValue();
+        this.amount = goal.getAmount() != null ? goal.getAmount().getValue() : null;
+        this.percentage = goal.getPercentage() != null ? goal.getPercentage().getValue() : null;
+        this.value = goal.getValue() != null ? goal.getValue().getValue() : null;
     }
 }
