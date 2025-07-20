@@ -1,6 +1,6 @@
 package com.forgefolio.api.infrastructure.adapter.out.persistence.user;
 
-import com.forgefolio.api.application.port.out.user.UserRepository;
+import com.forgefolio.api.application.port.out.persistence.user.UserRepository;
 import com.forgefolio.api.domain.exception.ErrorCode;
 import com.forgefolio.api.domain.exception.NotFoundException;
 import com.forgefolio.api.domain.model.shared.Id;

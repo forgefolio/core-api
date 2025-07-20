@@ -1,4 +1,4 @@
-package com.forgefolio.api.application.port.out.portfolio;
+package com.forgefolio.api.application.port.out.persistence.portfolio;
 
 import com.forgefolio.api.domain.model.asset.Asset;
 import com.forgefolio.api.domain.model.portfolio.Portfolio;

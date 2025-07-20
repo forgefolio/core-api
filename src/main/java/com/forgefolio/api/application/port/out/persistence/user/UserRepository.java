@@ -1,4 +1,4 @@
-package com.forgefolio.api.application.port.out.user;
+package com.forgefolio.api.application.port.out.persistence.user;
 
 import com.forgefolio.api.domain.model.shared.Id;
 import com.forgefolio.api.domain.model.user.User;

@@ -1,8 +1,8 @@
 package com.forgefolio.api.application.service.asset;
 
 import com.forgefolio.api.application.port.in.asset.FetchAssetPricesUseCase;
-import com.forgefolio.api.application.port.out.asset.AssetPriceProvider;
-import com.forgefolio.api.application.port.out.asset.AssetRepository;
+import com.forgefolio.api.application.port.out.api.asset.AssetPriceProvider;
+import com.forgefolio.api.application.port.out.persistence.asset.AssetRepository;
 import com.forgefolio.api.domain.model.asset.Asset;
 import com.forgefolio.api.domain.model.asset.AssetPrice;
 import com.forgefolio.api.domain.model.asset.Ticker;

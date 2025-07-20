@@ -1,6 +1,6 @@
 package com.forgefolio.api.infrastructure.adapter.out.api.asset;
 
-import com.forgefolio.api.application.port.out.asset.AssetPriceProvider;
+import com.forgefolio.api.application.port.out.api.asset.AssetPriceProvider;
 import com.forgefolio.api.domain.model.asset.Asset;
 import com.forgefolio.api.domain.model.asset.AssetPrice;
 import io.smallrye.mutiny.Uni;

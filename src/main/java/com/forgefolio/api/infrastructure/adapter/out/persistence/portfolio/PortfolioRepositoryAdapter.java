@@ -1,6 +1,6 @@
 package com.forgefolio.api.infrastructure.adapter.out.persistence.portfolio;
 
-import com.forgefolio.api.application.port.out.portfolio.PortfolioRepository;
+import com.forgefolio.api.application.port.out.persistence.portfolio.PortfolioRepository;
 import com.forgefolio.api.domain.exception.ErrorCode;
 import com.forgefolio.api.domain.exception.NotFoundException;
 import com.forgefolio.api.domain.model.asset.Asset;

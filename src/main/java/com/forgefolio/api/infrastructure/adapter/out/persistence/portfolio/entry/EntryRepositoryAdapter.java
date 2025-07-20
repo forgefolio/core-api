@@ -1,6 +1,6 @@
 package com.forgefolio.api.infrastructure.adapter.out.persistence.portfolio;
 
-import com.forgefolio.api.application.port.out.portfolio.EntryRepository;
+import com.forgefolio.api.application.port.out.persistence.portfolio.EntryRepository;
 import com.forgefolio.api.domain.model.portfolio.Entry;
 import com.forgefolio.api.infrastructure.adapter.out.persistence.portfolio.entry.EntryEntity;
 import com.forgefolio.api.infrastructure.adapter.out.persistence.portfolio.entry.EntryPanacheRepository;

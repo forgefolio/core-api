@@ -2,7 +2,7 @@ package com.forgefolio.api.application.service.user;
 
 import com.forgefolio.api.application.port.in.user.CreateUserUseCase;
 import com.forgefolio.api.application.port.in.user.response.UserResponse;
-import com.forgefolio.api.application.port.out.user.UserRepository;
+import com.forgefolio.api.application.port.out.persistence.user.UserRepository;
 import com.forgefolio.api.domain.model.user.User;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;

@@ -1,4 +1,4 @@
-package com.forgefolio.api.application.port.out.asset;
+package com.forgefolio.api.application.port.out.persistence.asset;
 
 import com.forgefolio.api.domain.dto.Pair;
 import com.forgefolio.api.domain.model.asset.Asset;

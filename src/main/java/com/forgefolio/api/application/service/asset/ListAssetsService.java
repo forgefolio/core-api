@@ -2,7 +2,7 @@ package com.forgefolio.api.application.service.asset;
 
 import com.forgefolio.api.application.port.in.asset.ListAssetsUseCase;
 import com.forgefolio.api.application.port.in.asset.response.AssetResponse;
-import com.forgefolio.api.application.port.out.asset.AssetRepository;
+import com.forgefolio.api.application.port.out.persistence.asset.AssetRepository;
 import com.forgefolio.api.domain.model.asset.Asset;
 import com.forgefolio.api.domain.model.asset.AssetPrice;
 import com.forgefolio.api.domain.pagination.PageResponse;
