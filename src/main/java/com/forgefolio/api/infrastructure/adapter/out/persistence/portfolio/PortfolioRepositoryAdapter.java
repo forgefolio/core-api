@@ -50,14 +50,12 @@ public class PortfolioRepositoryAdapter implements PortfolioRepository {
 
         return assetRepo.findById(new PortfolioAssetEntity.ID(portfolioId, assetId))
                 .onItem().ifNull().switchTo(() -> {
-                    PortfolioAssetEntity entity = new PortfolioAssetEntity(portfolio, asset, quantity);
+                    PortfolioAssetEntity entity = new PortfolioAssetEntity(portfolio, asset);
                     return assetRepo.persist(entity);
                 })
-
-                //TODO: fix double increase
-                .flatMap(existing -> {
-                    existing.incrementAmount(quantity);
-                    return assetRepo.persist(existing).replaceWithVoid();
+                .flatMap(entity -> {
+                    entity.incrementAmount(quantity);
+                    return assetRepo.persist(entity).replaceWithVoid();
                 });
     }
 
@@ -69,14 +67,12 @@ public class PortfolioRepositoryAdapter implements PortfolioRepository {
 
         return assetRepo.findById(new PortfolioAssetEntity.ID(portfolioId, assetId))
                 .onItem().ifNull().switchTo(() -> {
-                    PortfolioAssetEntity entity = PortfolioAssetEntity.negative(portfolio, asset, quantity);
+                    PortfolioAssetEntity entity = new PortfolioAssetEntity(portfolio, asset);
                     return assetRepo.persist(entity);
                 })
-
-                //TODO: fix double decrease
-                .flatMap(existing -> {
-                    existing.decrementAmount(quantity);
-                    return assetRepo.persist(existing).replaceWithVoid();
+                .flatMap(entity -> {
+                    entity.decrementAmount(quantity);
+                    return assetRepo.persist(entity).replaceWithVoid();
                 });
     }
 }

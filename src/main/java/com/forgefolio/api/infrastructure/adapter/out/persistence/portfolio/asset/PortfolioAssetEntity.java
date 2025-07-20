@@ -28,18 +28,10 @@ public class PortfolioAssetEntity {
     public PortfolioAssetEntity() {
     }
 
-    public PortfolioAssetEntity(Portfolio portfolio, Asset asset, Quantity quantity) {
+    public PortfolioAssetEntity(Portfolio portfolio, Asset asset) {
         this.portfolioId = portfolio.getId().getValue();
         this.assetId = asset.getId().getValue();
-        this.amount = quantity.getValue();
-    }
-
-    public static PortfolioAssetEntity negative(Portfolio portfolio, Asset asset, Quantity quantity) {
-        return new PortfolioAssetEntity(
-                portfolio,
-                asset,
-                new Quantity(quantity.getValue().negate())
-        );
+        this.amount = BigDecimal.ZERO;
     }
 
     public static class ID implements Serializable {
