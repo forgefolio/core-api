@@ -1,4 +1,16 @@
-FROM ghcr.io/graalvm/native-image-community:21 AS build
+FROM ghcr.io/graalvm/native-image-community:21 AS base
+WORKDIR /app
+
+FROM base AS dependencies
+
+COPY pom.xml .
+COPY mvnw .
+COPY .mvn .mvn
+
+RUN ./mvnw dependency:go-offline -B
+
+FROM base AS build
+COPY --from=dependencies /root/.m2 /root/.m2
 
 WORKDIR /app
 
