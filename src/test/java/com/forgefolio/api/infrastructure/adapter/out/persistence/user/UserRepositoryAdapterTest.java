@@ -46,4 +46,26 @@ class UserRepositoryAdapterTest {
                 }
         );
     }
+
+    @Test
+    @RunOnVertxContext
+    void findById(UniAsserter asserter) {
+        User user = new User();
+
+        asserter.execute(() ->
+                persistenceContextExecutor.runInTransaction(
+                        () -> userRepositoryAdapter.save(user)
+                )
+        );
+
+        asserter.assertThat(
+                () -> persistenceContextExecutor.runInSession(
+                        () -> userRepositoryAdapter.findById(user.getId())
+                ),
+                found -> {
+                    assertNotNull(found, "User should not be null after saving");
+                    assertEquals(user.getId(), found.getId(), "User ID should match after saving");
+                }
+        );
+    }
 }
