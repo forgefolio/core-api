@@ -9,8 +9,6 @@ import com.forgefolio.api.domain.model.shared.Id;
 import com.forgefolio.api.domain.model.shared.Quantity;
 import com.forgefolio.api.infrastructure.adapter.out.persistence.portfolio.asset.PortfolioAssetEntity;
 import com.forgefolio.api.infrastructure.adapter.out.persistence.portfolio.asset.PortfolioAssetPanacheRepository;
-import io.quarkus.hibernate.reactive.panache.common.WithSession;
-import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 
@@ -28,14 +26,12 @@ public class PortfolioRepositoryAdapter implements PortfolioRepository {
     }
 
     @Override
-    @WithTransaction
     public Uni<Void> save(Portfolio portfolio) {
         PortfolioEntity entity = new PortfolioEntity(portfolio);
         return portfolioRepo.persist(entity).replaceWithVoid();
     }
 
     @Override
-    @WithSession
     public Uni<Portfolio> findById(Id id) {
         return portfolioRepo.findById(id.getValue())
                 .onItem().ifNull().failWith(new NotFoundException(ErrorCode.PORTFOLIO_NOT_FOUND))
@@ -43,7 +39,6 @@ public class PortfolioRepositoryAdapter implements PortfolioRepository {
     }
 
     @Override
-    @WithTransaction
     public Uni<Void> increaseAssetAmount(Portfolio portfolio, Asset asset, Quantity quantity) {
         UUID portfolioId = portfolio.getId().getValue();
         UUID assetId = asset.getId().getValue();
@@ -60,7 +55,6 @@ public class PortfolioRepositoryAdapter implements PortfolioRepository {
     }
 
     @Override
-    @WithTransaction
     public Uni<Void> decreaseAssetAmount(Portfolio portfolio, Asset asset, Quantity quantity) {
         UUID portfolioId = portfolio.getId().getValue();
         UUID assetId = asset.getId().getValue();

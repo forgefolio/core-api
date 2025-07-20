@@ -10,8 +10,6 @@ import com.forgefolio.api.domain.model.shared.Id;
 import com.forgefolio.api.domain.pagination.PageResponse;
 import com.forgefolio.api.domain.pagination.asset.ListAssetsCommand;
 import io.quarkus.hibernate.reactive.panache.Panache;
-import io.quarkus.hibernate.reactive.panache.common.WithSession;
-import io.quarkus.hibernate.reactive.panache.common.WithTransaction;
 import io.smallrye.mutiny.Uni;
 import jakarta.enterprise.context.ApplicationScoped;
 import org.hibernate.reactive.mutiny.Mutiny;
@@ -25,15 +23,12 @@ import java.util.UUID;
 public class AssetRepositoryAdapter implements AssetRepository {
 
     private final AssetPanacheRepository assetPanacheRepository;
-    private final AssetPricePanacheRepository assetPricePanacheRepository;
 
-    public AssetRepositoryAdapter(AssetPanacheRepository assetPanacheRepository, AssetPricePanacheRepository assetPricePanacheRepository) {
+    public AssetRepositoryAdapter(AssetPanacheRepository assetPanacheRepository) {
         this.assetPanacheRepository = assetPanacheRepository;
-        this.assetPricePanacheRepository = assetPricePanacheRepository;
     }
 
     @Override
-    @WithSession
     public Uni<PageResponse<Pair<Asset, AssetPrice>>> findAssetsWithCurrentPrices(ListAssetsCommand command) {
         String sort = command.getSortQuery();
         String tickerFilter = command.getTicker() != null ? command.getTicker().toUpperCase() + "%" : "%";
@@ -105,7 +100,6 @@ public class AssetRepositoryAdapter implements AssetRepository {
     }
 
     @Override
-    @WithSession
     public Uni<Asset> findById(Id id) {
         return assetPanacheRepository.findById(id.getValue())
                 .onItem().ifNull().failWith(new NotFoundException(ErrorCode.ASSET_NOT_FOUND))
@@ -113,7 +107,6 @@ public class AssetRepositoryAdapter implements AssetRepository {
     }
 
     @Override
-    @WithTransaction
     public Uni<List<Asset>> upsertAssets(List<Asset> assets) {
         String baseSql = """
                 INSERT INTO assets (id, ticker, name)
@@ -169,7 +162,6 @@ public class AssetRepositoryAdapter implements AssetRepository {
     }
 
     @Override
-    @WithTransaction
     public Uni<Void> saveAssetPrices(List<AssetPrice> assetPrices) {
         String baseSql = """
                 INSERT INTO asset_prices (id, asset_id, price, date)
