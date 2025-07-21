@@ -8,6 +8,7 @@ import io.smallrye.mutiny.Uni;
 import org.junit.jupiter.api.Test;
 import org.mockito.stubbing.Answer;
 
+import java.util.concurrent.CompletableFuture;
 import java.util.function.Supplier;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -22,6 +23,8 @@ class CreateUserServiceTest {
 
     @Test
     void createUser() {
+        CompletableFuture<Void> testDone = new CompletableFuture<>();
+
         when(userRepository.save(any()))
                 .thenReturn(Uni.createFrom().voidItem());
 
@@ -31,13 +34,16 @@ class CreateUserServiceTest {
                     return supplier.get();
                 });
 
-        Uni<UserResponse> result = service.createUser();
+        service.createUser()
+                .subscribe()
+                .with(userResponse -> {
+                            assertNotNull(userResponse);
+                            assertNotNull(userResponse.getId());
+                            verify(userRepository).save(any(User.class));
+                        },
+                        testDone::completeExceptionally
+                );
 
-        UserResponse userResponse = result.await().indefinitely();
-
-        assertNotNull(userResponse);
-        assertNotNull(userResponse.getId());
-
-        verify(userRepository).save(any(User.class));
+        testDone.join();
     }
 }
