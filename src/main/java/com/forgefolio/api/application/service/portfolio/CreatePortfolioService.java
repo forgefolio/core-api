@@ -30,16 +30,15 @@ public class CreatePortfolioService implements CreatePortfolioUserCase {
     public Uni<PortfolioResponse> createPortfolio(CreatePortfolioCommand command) {
         Id userId = new Id(command.userId());
 
-        return persistenceContextExecutor.runInTransaction(() -> {
-            return userRepository.findById(userId)
-                    .onItem().ifNull().failWith(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND))
-                    .flatMap(user -> {
-                        Portfolio portfolio = new Portfolio(user, command.name());
+        return persistenceContextExecutor.runInTransaction(() ->
+                userRepository.findById(userId)
+                        .onItem().ifNull().failWith(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND))
+                        .flatMap(user -> {
+                            Portfolio portfolio = new Portfolio(user, command.name());
 
-                        return portfolioRepository.save(portfolio)
-                                .replaceWith(new PortfolioResponse(portfolio));
-                    });
-        });
+                            return portfolioRepository.save(portfolio)
+                                    .replaceWith(new PortfolioResponse(portfolio));
+                        }));
     }
 
 }
