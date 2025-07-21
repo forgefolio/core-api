@@ -22,7 +22,11 @@ public class Id {
         if (string == null || string.isEmpty())
             throw new BadArgumentException(ErrorCode.ID_EMPTY);
 
-        this.value = UUID.fromString(string);
+        try {
+            this.value = UUID.fromString(string);
+        } catch (Exception e) {
+            throw new BadArgumentException(ErrorCode.ID_INVALID);
+        }
     }
 
     @Override
