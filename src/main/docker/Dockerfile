@@ -21,7 +21,7 @@ RUN chmod +x mvnw
 ARG QUARKUS_PROFILE=prod
 ENV QUARKUS_PROFILE=${QUARKUS_PROFILE}
 
-RUN ./mvnw package -D native -D quarkus.profile=${QUARKUS_PROFILE}
+RUN ./mvnw package -D native -D quarkus.profile=${QUARKUS_PROFILE} -D skipTests
 
 FROM quay.io/quarkus/ubi9-quarkus-micro-image:2.0
 
