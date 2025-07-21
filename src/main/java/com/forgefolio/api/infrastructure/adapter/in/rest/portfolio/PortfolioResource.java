@@ -6,8 +6,6 @@ import com.forgefolio.api.application.port.in.portfolio.response.PortfolioRespon
 import io.quarkus.vertx.web.Body;
 import io.quarkus.vertx.web.Route;
 import io.smallrye.mutiny.Uni;
-import io.vertx.core.json.Json;
-import io.vertx.ext.web.RoutingContext;
 import jakarta.enterprise.context.ApplicationScoped;
 
 @ApplicationScoped
@@ -21,19 +19,9 @@ public class PortfolioResource {
 
     @Route(methods = Route.HttpMethod.POST, path = "/portfolios")
     public Uni<PortfolioResponse> createPortfolio(
-            RoutingContext ctx,
             @Body CreatePortfolioCommand command
     ) {
-        return this.createPortfolioUserCase.createPortfolio(command)
-                .onItem().invoke(portfolioResponse -> {
-                    String location = "/portfolios/" + portfolioResponse.getId();
-
-
-                    ctx.response()
-                            .setStatusCode(201)
-                            .putHeader("Location", location)
-                            .end(Json.encode(portfolioResponse));
-                });
+        return this.createPortfolioUserCase.createPortfolio(command);
     }
 
 }
