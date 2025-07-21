@@ -5,6 +5,7 @@ import com.forgefolio.api.application.port.out.persistence.PersistenceContextExe
 import com.forgefolio.api.application.port.out.persistence.user.UserRepository;
 import com.forgefolio.api.domain.model.user.User;
 import io.smallrye.mutiny.Uni;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.stubbing.Answer;
 
@@ -22,6 +23,7 @@ class CreateUserServiceTest {
     private final CreateUserService service = new CreateUserService(userRepository, executor);
 
     @Test
+    @DisplayName("When creating a user, should return a UserResponse with an ID")
     void createUser() {
         CompletableFuture<Void> testDone = new CompletableFuture<>();
 
@@ -39,7 +41,10 @@ class CreateUserServiceTest {
                 .with(userResponse -> {
                             assertNotNull(userResponse);
                             assertNotNull(userResponse.getId());
+
                             verify(userRepository).save(any(User.class));
+
+                            testDone.complete(null);
                         },
                         testDone::completeExceptionally
                 );
