@@ -5,6 +5,7 @@ quarkus:
     password: ${POSTGRES_PASSWORD:root}
     reactive:
       url: postgresql://${POSTGRES_HOST:localhost}:${POSTGRES_PORT:5432}/${POSTGRES_DB:forgefolio}
+    jdbc: false
 
   hibernate-orm:
     dialect: org.hibernate.dialect.PostgreSQLDialect
