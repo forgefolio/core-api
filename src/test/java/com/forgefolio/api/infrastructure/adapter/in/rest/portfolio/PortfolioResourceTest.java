@@ -15,6 +15,18 @@ import static org.hamcrest.Matchers.notNullValue;
 @QuarkusTest
 @QuarkusTestResource(IntegrationTestcontainersManager.class)
 class PortfolioResourceTest {
+    private String getUserId() {
+        Response createUserResponse = given()
+                .when()
+                .post("/users")
+                .then()
+                .statusCode(200)
+                .body("id", notNullValue())
+                .extract()
+                .response();
+
+        return createUserResponse.path("id");
+    }
 
     @Test
     @DisplayName("When the user id is not and UUID, should return 400")
@@ -25,6 +37,43 @@ class PortfolioResourceTest {
                     "name": "This is a test portfolio"
                 }
                 """;
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(body)
+                .when()
+                .post("/portfolios")
+                .then()
+                .statusCode(400);
+    }
+
+    @Test
+    @DisplayName("When the name is not provided, should return 400")
+    void createPortfolioWithMissingName() {
+        String body = """
+                {
+                    "userId": "%s"
+                }
+                """.formatted(getUserId());
+
+        given()
+                .contentType(ContentType.JSON)
+                .body(body)
+                .when()
+                .post("/portfolios")
+                .then()
+                .statusCode(400);
+    }
+
+    @Test
+    @DisplayName("When the name is empty, should return 400")
+    void createPortfolioWithEmptyName() {
+        String body = """
+                {
+                    "userId": "%s",
+                    "name": ""
+                }
+                """.formatted(getUserId());
 
         given()
                 .contentType(ContentType.JSON)
@@ -57,16 +106,8 @@ class PortfolioResourceTest {
     @Test
     @DisplayName("When the user id is valid, should return 200 with portfolio details")
     void createPortfolioWithValidUserId() {
-        Response createUserResponse = given()
-                .when()
-                .post("/users")
-                .then()
-                .statusCode(200)
-                .body("id", notNullValue())
-                .extract()
-                .response();
+        String userId = getUserId();
 
-        String userId = createUserResponse.path("id");
         String portfolioName = "This is a test portfolio";
 
         String body = """
