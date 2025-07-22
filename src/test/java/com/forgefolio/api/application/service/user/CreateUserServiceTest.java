@@ -25,8 +25,6 @@ class CreateUserServiceTest {
     @Test
     @DisplayName("When creating a user, should return a UserResponse with an ID")
     void createUser() {
-        CompletableFuture<Void> testDone = new CompletableFuture<>();
-
         when(userRepository.save(any()))
                 .thenReturn(Uni.createFrom().voidItem());
 
@@ -36,6 +34,8 @@ class CreateUserServiceTest {
                     return supplier.get();
                 });
 
+        CompletableFuture<Void> testDone = new CompletableFuture<>();
+
         service.createUser()
                 .subscribe()
                 .with(userResponse -> {
@@ -43,6 +43,7 @@ class CreateUserServiceTest {
                             assertNotNull(userResponse.getId());
 
                             verify(userRepository).save(any(User.class));
+                            verify(executor).runInTransaction(any());
 
                             testDone.complete(null);
                         },
